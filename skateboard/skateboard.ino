@@ -4,13 +4,15 @@
 const char WiFiPassword[] = "12345678";
 const char AP_NameChar[] = "LEDControl" ;
 
-bool headlights = false;
-bool taillights = false;
-
+bool headlightLock = false;
 int headlightStart = 5;
 int headlightEnd = 10;
+CRGB headlightColor = CRGB(255, 255, 255);
+
+bool taillightLock = false;
 int taillightStart = 15;
 int taillightEnd = 18;
+CRGB taillightColor = CRGB(255, 0, 0);
 
 const int NUM_LEDS = 60;
 const int LED_PIN = 6;
@@ -60,23 +62,48 @@ void loop() {
   delay(5);
 }
 
-void headlights(CRGB c, bool isOn) {
-  
+void setHeadlights(bool set) {
+  headlightLock = false;
+  if (set) {
+    setLEDs(headlightColor, headlightStart, headlightEnd);
+  } else {
+    setLEDs(CRGB(0,0,0), headlightStart, headlightEnd);
+  }
+  headlightLock = true;
 }
 
-void setLED(CRGB c, int i, bool s) {
-  if (headlights) {
+void setTaillights(bool set) {
+  taillightLock = false;
+  if (set) {
+    setLEDs(taillightColor, taillightStart, taillightEnd);
+  } else {
+
+  }
+  taillightLock = true;
+}
+
+void setLEDs(CRGB c, int startLED, int endLED, bool showNow) {
+  for (int i = startLED; i < endLED; i++) {
+    setLED(
+  }
+  if (showNow) {
+    FastLED.show();
+  }
+}
+
+void setLED(CRGB c, int i, bool showNow) {
+  if (headlightLock) {
     if (i > headlightStart && i < headlightEnd) {
       return;
     }
   }
-  if (taillights) {
+  if (taillightLock) {
     if (i > taillightStart && i < taillightEnd) {
       return;
     }
   }
   leds[i] = c;
-  if (s) {
+  if (showNow) {
     FastLED.show();
   }
 }
