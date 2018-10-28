@@ -48,8 +48,19 @@ void loop() {
   // Read the first line of the request
   request = client.readStringUntil('\r');
 
-  if       ( request.indexOf("LEDON") > 0 )  { digitalWrite(LED_Pin, HIGH);  }
-  else if  ( request.indexOf("LEDOFF") > 0 ) { digitalWrite(LED_Pin, LOW);   }
+  if (request.indexOf("01") > 0) {
+    digitalWrite(LED_Pin, HIGH);
+    rainbowSingle(35);
+  } else if (request.indexOf("02") > 0) {
+    rainbowFade(35);
+  } else if (request.indexOf("03") > 0) {
+    nightRider(CRGB(255, 0, 0), CRGB(0, 0, 0), 5, 0);
+  } else if (request.indexOf("04") > 0) {
+    setAll(CRGB(255, 0, 0));
+  } else if (request.indexOf("color") > 0) {
+    String color = request.substring(request.indexOf("color"));
+    // TODO
+  }
 
   client.flush();
 
@@ -62,29 +73,81 @@ void loop() {
   delay(5);
 }
 
+void rainbowSingle(uint8_t wait) {
+  uint16_t i, j;
+  for(j=0; j<256; j++) {
+    for(i=0; i<NUM_LEDS; i++) {
+      setLED(Wheel((i+j) & 255), i, false);
+    }
+    FastLED.show();
+    delay(wait);
+  }
+}
+
+/*
+ * Nightrider
+ * 
+ * c = visor color
+ * c2 = background color
+ * len = length
+ * delayTime = time between updates
+ */
+void nightRider(CRGB c, CRGB c2, int len, int delayTime) {
+  setAll(c2);
+  for (int i = 0; i < NUM_LEDS; i++) {  // FORWARD
+    setLED(c, i, false);
+    if (i-len >= 0) {
+      setLED(c2, i-len, false);
+    }
+    FastLED.show();
+    delay(delayTime);
+  }
+  for (int i = 0; i < NUM_LEDS; i++) {  // BACKWARD
+    setLED(c, NUM_LEDS - i, false);
+    if ((NUM_LEDS-i) <= NUM_LEDS-len) {
+      setLED(NUM_LEDS - i + len -1, c2, false);
+      leds[(NUM_LEDS-i) + len - 1] = c2;
+    }
+    FastLED.show();
+    delay(delayTime);
+  }
+}
+
+void rainbowFade(int delayTime) {
+  for(int i = 0; i < 256; i++) {
+      setAll(Wheel((i) & 255));
+    }
+    FastLED.show();
+    delay(delayTime);
+  }
+}
+
 void setHeadlights(bool set) {
   headlightLock = false;
   if (set) {
-    setLEDs(headlightColor, headlightStart, headlightEnd);
+    setLEDs(headlightColor, headlightStart, headlightEnd, false, 0, true);
+    headlightLock = true;
   } else {
-    setLEDs(CRGB(0,0,0), headlightStart, headlightEnd);
+    setLEDs(CRGB(0,0,0), headlightStart, headlightEnd, false, 0, true);
+    headlightLock = false;
   }
-  headlightLock = true;
 }
 
 void setTaillights(bool set) {
   taillightLock = false;
   if (set) {
-    setLEDs(taillightColor, taillightStart, taillightEnd);
+    setLEDs(taillightColor, taillightStart, taillightEnd, false, 0, true);
+    taillightLock = true;
   } else {
-
+    setLEDs(CRGB(0,0,0), taillightStart, taillightEnd, false, 0, true);
+    taillightLock = false;
   }
-  taillightLock = true;
 }
 
-void setLEDs(CRGB c, int startLED, int endLED, bool showNow) {
+void setLEDs(CRGB c, int startLED, int endLED, bool marquee, int marqueeDelay, bool showNow) {
   for (int i = startLED; i < endLED; i++) {
-    setLED(
+    setLED(c, i, marquee);
+    delay(marqueeDelay);
   }
   if (showNow) {
     FastLED.show();
@@ -110,7 +173,27 @@ void setLED(CRGB c, int i, bool showNow) {
 
 void setAll(CRGB c) {
   for (int i = 0; i < NUM_LEDS; i++) {
-    leds[i] = c;
+    setLED(c, i, false);
   }
   FastLED.show();
+}
+
+CRGB wheel(int WheelPos, int dim) {
+  CRGB color;
+  if (85 > WheelPos) {
+   color.r=0;
+   color.g=WheelPos * 3/dim;
+   color.b=(255 - WheelPos * 3)/dim;;
+  } 
+  else if (170 > WheelPos) {
+   color.r=WheelPos * 3/dim;
+   color.g=(255 - WheelPos * 3)/dim;
+   color.b=0;
+  }
+  else {
+   color.r=(255 - WheelPos * 3)/dim;
+   color.g=0;
+   color.b=WheelPos * 3/dim;
+  }
+  return color;
 }
