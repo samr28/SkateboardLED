@@ -1,85 +1,124 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta
+      name='viewport'
+      content='width=device-width, initial-scale=1, shrink-to-fit=no'
+    />
     <style>
-    .container {
-      padding-right: 15px;
-      padding-left: 15px;
-      margin-right: auto;
-      margin-left: auto;
-    }
-    @media (min-width: 768px) {
       .container {
-        width: 750px;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
       }
-    }
-    @media (min-width: 992px) {
-      .container {
-        width: 970px;
+      @media (min-width: 768px) {
+        .container {
+          width: 750px;
+        }
       }
-    }
-    @media (min-width: 1200px) {
-      .container {
-        width: 1170px;
+      @media (min-width: 992px) {
+        .container {
+          width: 970px;
+        }
       }
-    }
-    h2 {
-      font-size: 2rem;
-    }
-    h2,h3 {
-      margin-bottom: .5rem;
-      font-family: sans-serif;
-      font-weight: 500;
-      line-height: 1.2;
-    }
-    .btn-primary {
-      color: #fff;
-      background-color: #007bff;
-      border-color: #007bff;
-    }
-    .btn {
-      display: inline-block;
-      margin-bottom: 0;
-      font-weight: normal;
-      text-align: center;
-      vertical-align: middle;
-      -ms-touch-action: manipulation;
-          touch-action: manipulation;
-      cursor: pointer;
-      background-image: none;
-      border: 1px solid transparent;
-      white-space: nowrap;
-      padding: 6px 12px;
-      font-size: 14px;
-      line-height: 1.42857143;
-      border-radius: 4px;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
+      @media (min-width: 1200px) {
+        .container {
+          width: 1170px;
+        }
+      }
+      h2 {
+        font-size: 2rem;
+      }
+      h2,
+      h3 {
+        margin-bottom: 0.5rem;
+        font-family: sans-serif;
+        font-weight: 500;
+        line-height: 1.2;
+      }
+      .btn-primary {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+      }
+      .btn-danger {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+      }
+      .btn-success {
+        color: #fff;
+        background-color: #28a745;
+        border-color: #28a745;
+      }
+      .btn {
+        display: inline-block;
+        margin-bottom: 0;
+        font-weight: normal;
+        text-align: center;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        background-image: none;
+        border: 1px solid transparent;
+        white-space: nowrap;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        border-radius: 4px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
     </style>
     <title>LED Control</title>
   </head>
   <body>
     <div class='container'>
       <h2>WowGo 2S</h2>
-      <h3>Loading...</h3>
-      <a href="web.html?01"><button type="button" class="btn btn-primary">Rainbow Single</button></a>
-      <a href="web.html?02"><button type="button" class="btn btn-primary">Rainbow Fade</button></a>
-      <a href="web.html?03"><button type="button" class="btn btn-primary">Night Rider</button></a>
-      <a href="web.html?04"><button type="button" class="btn btn-primary">Red</button></a>
-      <a href="web.html?05"><button type="button" class="btn btn-primary">Primary</button></a>
-      <a href="web.html?06"><button type="button" class="btn btn-primary">Primary</button></a>
-      <a href="web.html?07"><button type="button" class="btn btn-primary">Primary</button></a>
-      <a href="web.html?08"><button type="button" class="btn btn-primary">Primary</button></a>
-      <br>
-      <br>
-      <form action="/web.html" method="get">
-        <label for="color">Pick a color</label>
-        <input type="color" id="color" name="color" value="#FFFFFF" />
-        <button type="submit" class="btn btn-primary">Go</button>
+      <br />
+      <a href='?h1'
+        ><button type='button' class='btn btn-success'>Headlights On</button></a
+      >
+      <a href='?h0'
+        ><button type='button' class='btn btn-danger'>Headlights Off</button></a
+      >
+      <br /><br />
+      <a href='?01'
+        ><button type='button' class='btn btn-primary'>
+          Rainbow Single
+        </button></a
+      >
+      <a href='?02'
+        ><button type='button' class='btn btn-primary'>Rainbow Fade</button></a
+      >
+      <a href='?03'
+        ><button type='button' class='btn btn-primary'>Night Rider</button></a
+      >
+      <a href='?04'
+        ><button type='button' class='btn btn-primary'>gg</button></a
+      >
+      <a href='?05'
+        ><button type='button' class='btn btn-primary'>Primary</button></a
+      >
+      <a href='?06'
+        ><button type='button' class='btn btn-primary'>Primary</button></a
+      >
+      <a href='?07'
+        ><button type='button' class='btn btn-primary'>Primary</button></a
+      >
+      <a href='?08'
+        ><button type='button' class='btn btn-primary'>Primary</button></a
+      >
+      <br />
+      <br />
+      <form action='' method='get'>
+        <label for='color'>Pick a color</label>
+        <input type='color' id='color' name='color' value='#FFFFFF' />
+        <button type='submit' class='btn btn-primary'>Go</button>
       </form>
     </div>
   </body>
